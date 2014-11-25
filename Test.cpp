@@ -7,7 +7,7 @@
 using namespace std;
 
 int main() {
-    test6();
+    test9();
 }
 
 
@@ -26,11 +26,24 @@ void test1() {
 }
 
 void test2() {
-    IntArray a;
-    IntArray b;
-    IntArray c = a + b;
-    cout << "C has " << c.getSize() << "elements" << endl;
-    cout << c << endl;
+    IntArray a(-10, 2);
+    for (int i=a.low(); i<=a.high(); i++)
+        a[i] = i*10;
+    cout << "Array has " << a.getSize() << " elements" << endl;
+    cout << a << endl;
+
+    cout << "Changing value of a[-5]" << endl;
+    a[-5] = 27;
+    a.setName("a");
+    cout << a << endl << endl;
+
+    IntArray b(1, 13);
+    cout << "Array has " << b.getSize() << " elements" << endl;
+    b.setName("b");
+    b = a;
+    cout << a << endl;
+    cout << b << endl;
+
 }
 
 void test3() {
@@ -77,6 +90,79 @@ void test6() {
     cout << e << endl;  
 }
 
+void test7() {
+    system("clear");
+    cout << "7. Array assigned to another array with different indices: IntArray f(1, 4);"  << endl;
+    cout << "                                                           IntArray g(5, 8);"  << endl;
+    cout << "                                                           f = g;"             << endl << endl;
+    IntArray f(1, 4);
+    for(int i = f.low(); i <= f.high(); i++)
+        f[i] = i * 10;
+    f.setName("f");
+    cout << f << endl;
+    IntArray g(5, 8);
+    for(int i = g.low(); i <= g.high(); i++)
+        g[i] = i * 10;
+    g.setName("g");
+    cout << g << endl;
+    system("clear");
+
+    f = g;
+    cout << f << endl;
+    cout << g << endl;
+}
+
+void test8() {
+
+    cout << "8. Multiple array assignment with different indices: IntArray j(3, 6);"  << endl;
+    cout << "                                                     IntArray k(6, 9);"  << endl;
+    cout << "                                                     IntArray l(1, 4);"  << endl;
+    cout << "                                                     j = k = l;"         << endl << endl;
+    IntArray j(3, 6);
+    for(int i = j.low(); i <= j.high(); i++)
+        j[i] = i * 10;
+    j.setName("j");
+    cout << j << endl;
+    IntArray k(6, 9);
+    for(int i = k.low(); i <= k.high(); i++)
+        k[i] = i * 10;
+    k.setName("k");
+    cout << k << endl;
+    IntArray l(1, 4);
+    for(int i = l.low(); i <= l.high(); i++)
+        l[i] = i * 10;
+    l.setName("l");
+    cout << l << endl;
+
+    cout << "K[6] is " << k[6] << endl;
+    //k[6] = l[1];
+    //k[7] = l[2];
+    //k[8] = l[3];
+    //k[9] = l[4];
+    cout << j << endl;
+    cout << k << endl;
+    cout << l << endl;
+}
+
+void test9() {
+    cout << "9. Overloaded equality operator (identical elements): IntArray m(3, 7);"  << endl;
+    cout << "                                                      IntArray n(1, 5);"  << endl;
+    cout << "                                                      m == n"             << endl << endl;
+    IntArray m(3, 7);
+    for(int i = m.low(); i <= m.high(); i++)
+        m[i] = i * 10;
+    m.setName("m");
+    cout << m << endl;
+    IntArray n(1, 5);
+    for(int i = n.low(); i <= n.high(); i++)
+        n[i] = i * 10;
+    n.setName("n");
+    cout << n << endl;
+    m = n;
+    cout << m << endl;
+    cout << n << endl;
+    cout << "Returns " << (m == n ? "True." : "False.") << endl << endl;
+}
 
 
 

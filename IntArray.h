@@ -49,6 +49,7 @@ private:
 	int upperBound;
    	int size; // pointer-based array size
    	int *ptr; // pointer to first element of pointer-based array
+   	int offset;
 }; // end class Array
 
 #endif

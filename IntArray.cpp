@@ -20,6 +20,8 @@ IntArray::IntArray() {
   lowerBound = 0;
   upperBound = 9;
   ptr = new int[size];
+  for (int i=0; i<size; i++)
+    ptr[i] = 0;
 }
 
 // default constructor for class Array (default size 10)
@@ -56,6 +58,8 @@ IntArray::IntArray( int lower, int upper) {
   else
     size = (upperBound - lowerBound) + 1;
   ptr = new int[size];
+  for (int i=lowerBound; i <=upperBound; i++)
+    ptr[i] = 0;
 }
 
 // destructor for class Array
@@ -71,14 +75,31 @@ int IntArray::getSize() const {
 // overloaded assignment operator;
 // const return avoids: ( a1 = a2 ) = a3
 const IntArray &IntArray::operator=( const IntArray &right ) {
-  if (size == right.size) {
-    for (int i=lowerBound; i <= upperBound; i++)
-      ptr[i] = right[i];
-    return *this;
-  } else {
-    cerr << "Error: Arrays are of different size" << endl;
-    exit(1);
-  }
+  if (this != &right) {
+    int difference, i;
+    if (size != right.size) {
+      delete [] ptr;            // MUST GO BACK AND CHANGE THIS SECTION
+      size = right.size;
+      ptr = new int[size];
+    } 
+
+    if (lowerBound < right.lowerBound) {
+      difference = right.lowerBound - lowerBound;
+      for (i=lowerBound; i <= upperBound; i++)
+        ptr[i] = right.ptr[i+difference];
+    } 
+    else if (right.lowerBound < lowerBound) {
+      difference = lowerBound - right.lowerBound;
+      for (i=lowerBound; i <= upperBound; i++)
+        ptr[i] = right.ptr[i-difference];
+    }
+    else {
+      for (i=lowerBound; i<=upperBound; i++)
+        ptr[i] = right.ptr[i];
+    }
+
+  } 
+  return *this;
 } // end function operator=
 
 // determine if two Arrays are equal and

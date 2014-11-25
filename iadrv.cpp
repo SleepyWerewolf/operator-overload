@@ -141,7 +141,7 @@ void test7() {
     cout << g << endl;
     csis << g << endl;
     wait();
-    system("clear");
+    //system("clear");
     f = g;
     cout << f << endl;
     cout << g << endl;
