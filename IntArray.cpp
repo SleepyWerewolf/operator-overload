@@ -37,18 +37,18 @@ IntArray::IntArray(int arraySize) {
   lowerBound = 0;
   upperBound = size-1;
 
-  for ( int i = 0; i < size; i++ )
-    ptr[ i ] = 0;
+  for (int i = 0; i < size; i++)
+    ptr[i] = 0;
 }
 
 IntArray::IntArray(const IntArray &arrayToCopy){
   size = arrayToCopy.size;
-   ptr = new int[size];
-   lowerBound = arrayToCopy.lowerBound;
-   upperBound = arrayToCopy.upperBound;
+  ptr = new int[size];
+  lowerBound = arrayToCopy.lowerBound;
+  upperBound = arrayToCopy.upperBound;
 
-   for (int i = lowerBound; i <= upperBound; i++)
-      ptr[i] = arrayToCopy[i]; // copy into object
+  for (int i = 0; i < size; i++)
+    ptr[i] = arrayToCopy.ptr[i];
 }
 
 IntArray::IntArray(int lower, int upper) {
@@ -68,7 +68,7 @@ IntArray::IntArray(int lower, int upper) {
     else
       size = (upperBound - lowerBound) + 1;
     ptr = new int[size];
-    for (int i=lowerBound; i <=upperBound; i++)
+    for (int i=0; i < size; i++)
       ptr[i] = 0;
   }
 }
@@ -103,16 +103,16 @@ const IntArray &IntArray::operator=(const IntArray &right) {
     else {
       if (lowerBound < right.lowerBound) {
         difference = right.lowerBound - lowerBound;
-        for (i=lowerBound; i <= upperBound; i++)
+        for (i=0; i < size; i++)
           ptr[i] = right.ptr[i+difference];
       } 
       else if (lowerBound > right.lowerBound) {
         difference = lowerBound - right.lowerBound;
-        for (i=lowerBound; i <= upperBound; i++)
+        for (i=0; i < size; i++)
           ptr[i] = right.ptr[i-difference];
       }
       else 
-        for (i=lowerBound; i<=upperBound; i++)
+        for (i=0; i<size; i++)
           ptr[i] = right.ptr[i];
     }
   } 
@@ -128,13 +128,13 @@ bool IntArray::operator==(const IntArray &right) const {
   int difference, i;
   if (lowerBound < right.lowerBound) {
     difference = right.lowerBound - lowerBound;
-    for (i=lowerBound; i<= upperBound; i++)
+    for (i=0; i< size; i++)
       if (ptr[i] != right.ptr[i+difference])
         return false;
   }
   else if (lowerBound > right.lowerBound) {
     difference = lowerBound - right.lowerBound;
-    for (i=lowerBound; i<= upperBound; i++)
+    for (i=0; i<= size; i++)
       if (ptr[i] != right.ptr[i-difference])
         return false;
   }
@@ -157,16 +157,16 @@ const IntArray IntArray::operator+(const IntArray &right) {
 
     if (lowerBound < right.lowerBound) {
       difference = right.lowerBound - lowerBound;
-      for (i=lowerBound; i<=upperBound; i++)
+      for (i=0; i<size; i++)
         temp[i-lowerBound] = ptr[i] + right.ptr[i+difference];
     }
     else if (lowerBound > right.lowerBound) {
       difference = lowerBound - right.lowerBound;
-      for (i=lowerBound; i<=upperBound; i++)
+      for (i=0; i<size; i++)
         temp[i-lowerBound] = ptr[i] + right.ptr[i-difference];
     }
     else
-      for (int i=lowerBound; i<=upperBound; i++)
+      for (i=0; i<size; i++)
         temp[i-lowerBound] = ptr[i] + right.ptr[i];
 
     return *temp;
@@ -181,15 +181,15 @@ const IntArray IntArray::operator+=(const IntArray &right) {
     int difference, i;
     if (lowerBound < right.lowerBound) {
       difference = right.lowerBound - lowerBound;
-      for (i=lowerBound; i<=upperBound; i++)
+      for (i=0; i<size; i++)
         ptr[i] = ptr[i] + right.ptr[i+difference];
     }
     else if (lowerBound > right.lowerBound) {
       difference = lowerBound - right.lowerBound;
-      for (i=lowerBound; i<=upperBound; i++)
+      for (i=0; i<size; i++)
         ptr[i] = ptr[i] + right.ptr[i-difference];
     }
-    else for (i=lowerBound; i<=upperBound; i++)
+    else for (i=0; i<size; i++)
       ptr[i] = ptr[i] + right.ptr[i];
     return *this;
   } else {
@@ -198,28 +198,25 @@ const IntArray IntArray::operator+=(const IntArray &right) {
   }
 }
 
-// overloaded subscript operator for non-const Arrays;
-// reference return creates a modifiable lvalue
 int &IntArray::operator[](int index) {
   if (index < lowerBound || index > upperBound) {
     cerr << "\nError: Index out of bounds" << endl;
     exit(1);
   } 
-  else return ptr[index];
-} // end function operator[]
+  if (lowerBound < 0 || upperBound < 0)
+    return ptr[index + lowerBound];
+  else return ptr[index-lowerBound];
+}
 
-
-// overloaded subscript operator for const Arrays
-// const reference return creates an rvalue
 int IntArray::operator[](int index) const {
-   // check for subscript out-of-range error
    if ( index < lowerBound || index > upperBound ) {
-      cerr << "\nError: Subscript " << subscript << " out of range" << endl;
-      exit( 1 ); // terminate program; subscript out of range
-   } // end if
-
-   else return ptr[index]; // returns copy of this element
-} // end function operator[]
+      cerr << "\nError: Subscript " << index << " out of range" << endl;
+      exit(1);
+   }
+   if (lowerBound < 0 || upperBound < 0)
+    return ptr[index + lowerBound];
+   else return ptr[index-lowerBound];
+}
 
 // overloaded output operator for class Array 
 ostream &operator<<(ostream &output, const IntArray &a) {
