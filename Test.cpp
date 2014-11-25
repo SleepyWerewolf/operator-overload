@@ -7,7 +7,8 @@
 using namespace std;
 
 int main() {
-    test15();
+    test6();
+    test7();
 }
 
 
@@ -77,17 +78,20 @@ void test5() {
 }
 
 void test6() {
-    system("clear");
+    //system("clear");
     cout << "6. Array declared with another object of type IntArray: IntArray c(6, 8);" << endl;
     cout << "                                                        Intarray e(c);"    << endl << endl;
     IntArray c(6, 8);
-    for(int i = c.low(); i <= c.high(); i++)
+    cout << "C has a range of " << c.low() << " to " << c.high() << " elements" << endl;
+    cout << c << endl;
+    for(int i = c.low(); i <= c.high(); i++){
         c[i] = i * 10;
+    }
     c.setName("c");
     cout << c << endl;
     IntArray e(c);
     e.setName("e");
-    cout << e << endl;  
+    cout << e << endl;
 }
 
 void test7() {
@@ -296,4 +300,85 @@ void test15() {
     IntArray d(-20);
     cout << d << endl;
 
+}
+
+
+void test16() {
+
+    cout << "16. Sum of two arrays assigned to first array: IntArray d(10, 13);" << endl;
+    cout << "                                               IntArray e(30, 33);" << endl;
+    cout << "                                               d += e;"             << endl << endl;
+
+    IntArray d(10, 13);
+    for(int i = d.low(); i <= d.high(); i++)
+        d[i] = i * 10;
+    d.setName("d");
+    cout << d << endl;
+    IntArray e(30, 33);
+    for(int i = e.low(); i <= e.high(); i++)
+        e[i] = i * 10;
+    e.setName("e");
+    cout << e << endl;
+    d += e;
+    cout << d << endl;
+}
+
+void test17() {
+    system("clear");
+    cout << "17. Array declared with illegal array bounds: IntArray f(5, 2);" << endl << endl;
+    IntArray f(5, 2);
+    for(int i = f.low(); i <= f.high(); i++)
+        f[i] = i * 10;
+    f.setName("f");
+    cout << f << endl;
+}
+
+void test18() {
+    cout << "18. Array with index out of range: IntArray g(10);"    << endl;
+    cout << "                                   g[10] = 1;"         << endl << endl;
+    IntArray g(10);
+    for(int i = g.low(); i <= g.high(); i++)
+        g[i] = i * 10;
+    g.setName("g");
+    cout << g << endl;
+
+    g[10] = 1;
+}
+
+void test19() {
+    cout << "19. Arrays with length mismatch: IntArray m(1, 4);" << endl;
+    cout << "                                 IntArray n(2, 4);" << endl;
+    cout << "                                 m = n;"            << endl << endl;
+
+    IntArray m(1, 4);
+    for(int i = m.low(); i <= m.high(); i++)
+        m[i] = i * 10;
+    m.setName("m");
+    cout << m << endl;
+
+    IntArray n(2, 4);
+    for(int i = n.low(); i <= n.high(); i++)
+        n[i] = i * 10;
+    n.setName("n");
+    cout << n << endl;
+
+    m = n;
+    cout << m << endl;
+    cout << n << endl;
+}
+
+void test20() {
+    cout << "20. Array subscript operator: IntArray o(7, 8);" << endl;
+    cout << "                              o[7] = 25;"        << endl;
+    cout << "                              o[8] = o[7];"      << endl << endl;
+
+    IntArray o(7, 8);
+    for(int i = o.low(); i <= o.high(); i++)
+        o[i] = i * 10;
+    o.setName("o");
+    cout << o << endl;
+
+    o[7] = 25;
+    o[8] = o[7];
+    cout << o << endl;
 }

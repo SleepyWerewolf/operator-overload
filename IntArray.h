@@ -19,26 +19,23 @@ using std::string;
 
 class IntArray
 {
-   friend ostream &operator<<( ostream &, const IntArray & );
-   friend istream &operator>>( istream &, IntArray & );
+   friend ostream &operator<<(ostream &, const IntArray &);
 public:
 	IntArray();
 	IntArray(int);
 	IntArray(int, int); // default constructor
-	IntArray( const IntArray & ); // copy constructor
+	IntArray(const IntArray &); // copy constructor
 	~IntArray(); // destructor
 	int getSize() const; // return size
 	int low();
 	int high();
 	void setName(string);
 
-	const IntArray &operator=( const IntArray & );
-	bool operator==( const IntArray & ) const;
-	bool operator!=( const IntArray &right ) const { 
-	  return !(*this == right);
-	}
-	const IntArray operator+(const IntArray&);
-	const IntArray operator+=(const IntArray&);
+	const IntArray &operator=(const IntArray &);
+	bool operator==(const IntArray &) const;
+	bool operator!=(const IntArray &right) const;
+	const IntArray operator+(const IntArray &);
+	const IntArray operator+=(const IntArray &);
 	int &operator[](int);              
 	int operator[](int) const;  
 

@@ -41,42 +41,45 @@ IntArray::IntArray(int arraySize) {
     ptr[ i ] = 0;
 }
 
-// copy constructor for class Array;
-// must receive a reference to prevent infinite recursion
-IntArray::IntArray(const IntArray &arrayToCopy) {
-   size = arrayToCopy.size;
+IntArray::IntArray(const IntArray &arrayToCopy){
+  size = arrayToCopy.size;
    ptr = new int[size];
    lowerBound = arrayToCopy.lowerBound;
    upperBound = arrayToCopy.upperBound;
 
-   for ( int i = lowerBound; i <= upperBound; i++ )
-      ptr[ i ] = arrayToCopy[ i ]; // copy into object
-} // end Array copy constructor
-
-IntArray::IntArray(int lower, int upper) {
-  lowerBound = lower;
-  upperBound = upper;
-
-  if (lowerBound < 0)
-    size = upperBound + (-lowerBound+1);
-  else if (upperBound < 0)
-    size = (-lowerBound - -upperBound)+1;
-  else
-    size = (upperBound - lowerBound) + 1;
-  ptr = new int[size];
-  for (int i=lowerBound; i <=upperBound; i++)
-    ptr[i] = 0;
+   for (int i = lowerBound; i <= upperBound; i++)
+      ptr[i] = arrayToCopy[i]; // copy into object
 }
 
-// destructor for class Array
-IntArray::~IntArray() {
-   delete [] ptr; // release pointer-based array space
-} // end destructor
+IntArray::IntArray(int lower, int upper) {
+  if (lower > upper) {
+    lowerBound = 0;
+    upperBound = 9;
+    ptr = new int[10];
+  }
+  else {
+    lowerBound = lower;
+    upperBound = upper;
 
-// return number of elements of Array
+    if (lowerBound < 0)
+      size = upperBound + (-lowerBound+1);
+    else if (upperBound < 0)
+      size = (-lowerBound - -upperBound)+1;
+    else
+      size = (upperBound - lowerBound) + 1;
+    ptr = new int[size];
+    for (int i=lowerBound; i <=upperBound; i++)
+      ptr[i] = 0;
+  }
+}
+
+IntArray::~IntArray() {
+   delete [] ptr;
+}
+
 int IntArray::getSize() const {
-   return size; // number of elements in Array
-} // end function getSize
+   return size;
+}
 
 int IntArray::low() {
   return lowerBound;
@@ -95,27 +98,23 @@ void IntArray::setName(string toName) {
 const IntArray &IntArray::operator=(const IntArray &right) {
   if (this != &right) {
     int difference, i;
-    if (size != right.size) {
-      delete [] ptr;            // MUST GO BACK AND CHANGE THIS SECTION
-      size = right.size;
-      ptr = new int[size];
-    } 
-
-    if (lowerBound < right.lowerBound) {
-      difference = right.lowerBound - lowerBound;
-      for (i=lowerBound; i <= upperBound; i++)
-        ptr[i] = right.ptr[i+difference];
-    } 
-    else if (lowerBound > right.lowerBound) {
-      difference = lowerBound - right.lowerBound;
-      for (i=lowerBound; i <= upperBound; i++)
-        ptr[i] = right.ptr[i-difference];
-    }
+    if (size != right.size) 
+      cerr << "Error: Arrays not the same size" << endl;
     else {
-      for (i=lowerBound; i<=upperBound; i++)
-        ptr[i] = right.ptr[i];
+      if (lowerBound < right.lowerBound) {
+        difference = right.lowerBound - lowerBound;
+        for (i=lowerBound; i <= upperBound; i++)
+          ptr[i] = right.ptr[i+difference];
+      } 
+      else if (lowerBound > right.lowerBound) {
+        difference = lowerBound - right.lowerBound;
+        for (i=lowerBound; i <= upperBound; i++)
+          ptr[i] = right.ptr[i-difference];
+      }
+      else 
+        for (i=lowerBound; i<=upperBound; i++)
+          ptr[i] = right.ptr[i];
     }
-
   } 
   return *this;
 } // end function operator=
@@ -147,11 +146,15 @@ bool IntArray::operator==(const IntArray &right) const {
   return true; // Arrays are equal
 } // end function operator==
 
+bool IntArray::operator!=(const IntArray &right) const {
+  return !(*this == right);
+}
+
 const IntArray IntArray::operator+(const IntArray &right) {
   if (size == right.getSize()) {
-    int temp [right.getSize()];
+    int temp [size];
     int difference, i;
-    
+
     if (lowerBound < right.lowerBound) {
       difference = right.lowerBound - lowerBound;
       for (i=lowerBound; i<=upperBound; i++)
@@ -165,6 +168,7 @@ const IntArray IntArray::operator+(const IntArray &right) {
     else
       for (int i=lowerBound; i<=upperBound; i++)
         temp[i-lowerBound] = ptr[i] + right.ptr[i];
+
     return *temp;
   } else {
     cerr << "\nError: Arrays not same length" << endl;
@@ -207,14 +211,14 @@ int &IntArray::operator[](int index) {
 
 // overloaded subscript operator for const Arrays
 // const reference return creates an rvalue
-int IntArray::operator[](int subscript) const {
+int IntArray::operator[](int index) const {
    // check for subscript out-of-range error
-   if ( subscript < lowerBound || subscript > upperBound ) {
+   if ( index < lowerBound || index > upperBound ) {
       cerr << "\nError: Subscript " << subscript << " out of range" << endl;
       exit( 1 ); // terminate program; subscript out of range
    } // end if
 
-   else return ptr[subscript]; // returns copy of this element
+   else return ptr[index]; // returns copy of this element
 } // end function operator[]
 
 // overloaded output operator for class Array 
