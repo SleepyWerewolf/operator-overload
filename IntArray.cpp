@@ -35,9 +35,9 @@ IntArray::IntArray( int arraySize ) {
 
 // copy constructor for class Array;
 // must receive a reference to prevent infinite recursion
-IntArray::IntArray( const IntArray &arrayToCopy ) 
-   : size( arrayToCopy.size ) {
-   ptr = new int[ arrayToCopy.size ]; // create space for pointer-based array
+IntArray::IntArray( const IntArray &arrayToCopy ) {
+   size = arrayToCopy.size;
+   ptr = new int[size];
    lowerBound = arrayToCopy.lowerBound;
    upperBound = arrayToCopy.upperBound;
 
