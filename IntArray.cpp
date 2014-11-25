@@ -88,7 +88,7 @@ const IntArray &IntArray::operator=( const IntArray &right ) {
       for (i=lowerBound; i <= upperBound; i++)
         ptr[i] = right.ptr[i+difference];
     } 
-    else if (right.lowerBound < lowerBound) {
+    else if (lowerBound > right.lowerBound) {
       difference = lowerBound - right.lowerBound;
       for (i=lowerBound; i <= upperBound; i++)
         ptr[i] = right.ptr[i-difference];
@@ -105,14 +105,28 @@ const IntArray &IntArray::operator=( const IntArray &right ) {
 // determine if two Arrays are equal and
 // return true, otherwise return false
 bool IntArray::operator==( const IntArray &right ) const {
-   if ( size != right.getSize() )
-      return false; // arrays of different number of elements
+  if ( size != right.getSize() )
+    return false; // arrays of different number of elements
 
-   for ( int i = 0; i < size; i++ )
+  int difference, i;
+  if (lowerBound < right.lowerBound) {
+    difference = right.lowerBound - lowerBound;
+    for (i=lowerBound; i<= upperBound; i++)
+      if (ptr[i] != right.ptr[i+difference])
+        return false;
+  }
+  else if (lowerBound > right.lowerBound) {
+    difference = lowerBound - right.lowerBound;
+    for (i=lowerBound; i<= upperBound; i++)
+      if (ptr[i] != right.ptr[i-difference])
+        return false;
+  }
+  else {
+    for ( i = 0; i < size; i++ )
       if ( ptr[ i ] != right.ptr[ i ] )
          return false; // Array contents are not equal
-
-   return true; // Arrays are equal
+  }
+  return true; // Arrays are equal
 } // end function operator==
 
 const IntArray IntArray::operator+(const IntArray &right) {

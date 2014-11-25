@@ -7,7 +7,7 @@
 using namespace std;
 
 int main() {
-    test9();
+    test12();
 }
 
 
@@ -161,7 +161,70 @@ void test9() {
     m = n;
     cout << m << endl;
     cout << n << endl;
+    cout << "M has " << m.getSize() << " elements" << " with a lower bound of " << m.low() << endl;
+    cout << "N has " << n.getSize() << " elements" << " with a lower bound of " << n.low() << endl;
     cout << "Returns " << (m == n ? "True." : "False.") << endl << endl;
+}
+
+void test10() {
+    cout << "10. Overloaded equality operator (different elements): IntArray o(3, 7);"  << endl;
+    cout << "                                                       IntArray p(1, 5);"  << endl;
+    cout << "                                                       o == p"             << endl << endl;
+
+    IntArray o(3, 7);
+    for(int i = o.low(); i <= o.high(); i++)
+        o[i] = i * 10;
+    o.setName("o");
+    cout << o << endl;
+
+    IntArray p(1, 5);
+    for(int i = p.low(); i <= p.high(); i++)
+        p[i] = i * 10;
+    p.setName("p");
+    cout << p << endl;
+    cout << "Returns " << (o == p ? "True." : "False.") << endl << endl;
+}
+
+void test11() {
+    cout << "11. Overloaded equality operator (different size arrays): IntArray q(1, 3);"  << endl;
+    cout << "                                                          IntArray r(1, 4);"  << endl;
+    cout << "                                                          q == r;"    << endl << endl;
+
+    IntArray q(1, 3);
+    for(int i = q.low(); i <= q.high(); i++)
+        q[i] = i * 10;
+    q.setName("q");
+    cout << q << endl;
+
+    IntArray r(1, 4);
+    for(int i = r.low(); i <= r.high(); i++)
+        r[i] = i * 10;
+    r.setName("r");
+    cout << r << endl;
+    cout << "Returns " << (q == r ? "True." : "False.") << endl << endl;
+}
+
+void test12() {
+    cout << "12. Overloaded inequality operator (identical elements): IntArray s(3, 7);" << endl;
+    cout << "                                                         IntArray t(1, 5);" << endl;
+    cout << "                                                         s != t;"           << endl << endl;
+
+    IntArray s(3, 7);
+    for(int i = s.low(); i <= s.high(); i++)
+        s[i] = i * 10;
+    s.setName("s");
+    cout << s << endl;
+
+    IntArray t(1, 5);
+    for(int i = t.low(); i <= t.high(); i++)
+        t[i] = i * 10;
+    t.setName("t");
+    cout << t << endl;
+
+    s = t;
+    cout << s << endl;
+    cout << t << endl;
+    cout << "Returns " << (s != t ? "True." : "False.") << endl << endl;
 }
 
 
