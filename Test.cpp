@@ -283,8 +283,12 @@ void test15() {
     cout << b << endl;
 
     system("clear");
+    a += b;
+    /*
     IntArray c = a + b;
     c.setName("c");
     cout << "C has a range of " << c.low() << " to " << c.high() << endl;
     cout << c << endl;
+    */
+    cout << a << endl;
 }

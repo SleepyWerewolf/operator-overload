@@ -132,8 +132,27 @@ bool IntArray::operator==( const IntArray &right ) const {
 const IntArray IntArray::operator+(const IntArray &right) {
   if (size == right.getSize()) {
     int temp [right.getSize()];
-    for (int i=0; i<right.getSize(); i++)
-      temp[i] = ptr[i] + right[i];
+    int difference, i;
+    
+    for (i=lowerBound; i<=upperBound; i++)
+      temp[i-lowerBound] = ptr[i] + right.ptr[i+difference];
+
+/*
+    if (lowerBound < right.lowerBound) {
+      difference = right.lowerBound - lowerBound;
+      for (i=lowerBound; i<=upperBound; i++)
+        temp[i-lowerBound] = ptr[i] + right.ptr[i+difference];
+    }
+    else if (lowerBound > right.lowerBound) {
+      difference = lowerBound - right.lowerBound;
+      for (i=lowerBound; i<=upperBound; i++)
+        temp[i-lowerBound] = ptr[i] + right.ptr[i-difference];
+    }
+    else
+      for (int i=lowerBound; i<=upperBound; i++)
+        temp[i-lowerBound] = ptr[i] + right.ptr[i];
+
+*/
     return *temp;
   } else {
     cerr << "\nError: Arrays not same length" << endl;
@@ -143,8 +162,19 @@ const IntArray IntArray::operator+(const IntArray &right) {
 
 const IntArray IntArray::operator+=(const IntArray &right) {
   if (size == right.getSize()) {
-    for (int i=0; i<right.getSize(); i++)
-      ptr[i] = ptr[i] + right[i];
+    int difference, i;
+    if (lowerBound < right.lowerBound) {
+      difference = right.lowerBound - lowerBound;
+      for (i=lowerBound; i<=upperBound; i++)
+        ptr[i] = ptr[i] + right.ptr[i+difference];
+    }
+    else if (lowerBound > right.lowerBound) {
+      difference = lowerBound - right.lowerBound;
+      for (i=lowerBound; i<=upperBound; i++)
+        ptr[i] = ptr[i] + right.ptr[i-difference];
+    }
+    else for (i=lowerBound; i<=upperBound; i++)
+      ptr[i] = ptr[i] + right.ptr[i];
     return *this;
   } else {
     cerr << "\nError: Arrays not same length" << endl;
@@ -174,14 +204,6 @@ int IntArray::operator[]( int subscript ) const {
 
    else return ptr[subscript]; // returns copy of this element
 } // end function operator[]
-
-// overloaded input operator for class Array;
-// inputs values for entire Array
-istream &operator>>( istream &input, IntArray &a ) {
-   for ( int i = a.lowerBound; i <= a.upperBound; i++ )
-      input >> a.ptr[ i ];
-   return input; // enables cin >> x >> y;
-} // end function 
 
 // overloaded output operator for class Array 
 ostream &operator<<(ostream &output, const IntArray &a) {
