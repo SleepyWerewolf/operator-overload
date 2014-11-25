@@ -1,5 +1,14 @@
-// Fig. 11.6: Array.h
-// Array class for storing arrays of integers.
+// IntArray.h
+// Operator Overloading Lab - CS 320
+//
+// This class is a dynamic Array, enhancing
+// the normal c++ array to allow for specified
+// index ranges, including negative numbers,
+// as well as allowing for addition of arrays.
+//
+// 11/25/14
+// Viet Truong - masc 0859
+
 #ifndef INTARRAY_H
 #define INTARRAY_H
 
@@ -19,37 +28,26 @@ public:
 	IntArray( const IntArray & ); // copy constructor
 	~IntArray(); // destructor
 	int getSize() const; // return size
-
-	const IntArray &operator=( const IntArray & ); // assignment operator
-	bool operator==( const IntArray & ) const; // equality operator
-
-	// inequality operator; returns opposite of == operator
-	bool operator!=( const IntArray &right ) const { 
-	  return ! ( *this == right ); // invokes Array::operator==
-	} // end function operator!=
-
-	const IntArray operator+(const IntArray&);
-
-	const IntArray operator+=(const IntArray&);
-
-	// subscript operator for non-const objects returns modifiable lvalue
-	int &operator[]( int );              
-
-	// subscript operator for const objects returns rvalue
-	int operator[]( int ) const;  
-
 	int low();
-
 	int high();
+	void setName(string);
 
-	void setName(string toName);
+	const IntArray &operator=( const IntArray & );
+	bool operator==( const IntArray & ) const;
+	bool operator!=( const IntArray &right ) const { 
+	  return !(*this == right);
+	}
+	const IntArray operator+(const IntArray&);
+	const IntArray operator+=(const IntArray&);
+	int &operator[](int);              
+	int operator[](int) const;  
+
 private:
 	string name;
 	int lowerBound;
 	int upperBound;
    	int size; // pointer-based array size
    	int *ptr; // pointer to first element of pointer-based array
-   	int offset;
-}; // end class Array
+};
 
 #endif
