@@ -7,7 +7,7 @@
 using namespace std;
 
 int main() {
-    test12();
+    test15();
 }
 
 
@@ -227,6 +227,64 @@ void test12() {
     cout << "Returns " << (s != t ? "True." : "False.") << endl << endl;
 }
 
+void test13() {
+    cout << "13. Overloaded inequality operator (different elements): IntArray u(3, 7);" << endl;
+    cout << "                                                         IntArray v(1, 5);" << endl;
+    cout << "                                                         u != v;"           << endl << endl;
 
+    IntArray u(3, 7);
+    for(int i = u.low(); i <= u.high(); i++)
+        u[i] = i * 10;
+    u.setName("u");
+    cout << u << endl;
 
+    IntArray v(1, 5);
+    for(int i = v.low(); i <= v.high(); i++)
+        v[i] = i * 10;
+    v.setName("v");
+    cout << v << endl;
+    cout << "Returns " << (u != v ? "True." : "False.") << endl << endl;
+}
 
+void test14() {
+    cout << "14. Overloaded inequality operator (different size arrays): IntArray w(1, 3);" << endl;
+    cout << "                                                            IntArray x(1, 4);" << endl;
+    cout << "                                                            w != x;"           << endl << endl;
+
+    IntArray w(1, 3);
+    for(int i = w.low(); i <= w.high(); i++)
+        w[i] = i * 10;
+    w.setName("w");
+    cout << w << endl;
+
+    IntArray x(1, 4);
+    for(int i = x.low(); i <= x.high(); i++)
+        x[i] = i * 10;
+    x.setName("x");
+    cout << x << endl;
+    cout << "Returns " << (w != x ? "True." : "False.") << endl << endl;
+}
+
+void test15() {
+    cout << "15. Sum of two arrays assigned to third array: IntArray a(1, 5);"   << endl;
+    cout << "                                               IntArray b(4, 8);"   << endl;
+    cout << "                                               IntArray c = a + b;" << endl << endl;
+
+    IntArray a(1, 5);
+    for(int i = a.low(); i <= a.high(); i++)
+        a[i] = i * 10;
+    a.setName("a");
+    cout << a << endl;
+
+    IntArray b(4, 8);
+    for(int i = b.low(); i <= b.high(); i++)
+        b[i] = i * 10;
+    b.setName("b");
+    cout << b << endl;
+
+    system("clear");
+    IntArray c = a + b;
+    c.setName("c");
+    cout << "C has a range of " << c.low() << " to " << c.high() << endl;
+    cout << c << endl;
+}
