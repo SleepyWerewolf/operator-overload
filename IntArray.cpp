@@ -71,20 +71,14 @@ int IntArray::getSize() const {
 // overloaded assignment operator;
 // const return avoids: ( a1 = a2 ) = a3
 const IntArray &IntArray::operator=( const IntArray &right ) {
-   if ( &right != this ) { // avoid self-assignment
-      // for Arrays of different sizes, deallocate original
-      // left-side array, then allocate new left-side array
-      if ( size != right.size ) {
-         delete [] ptr; // release space
-         size = right.size; // resize this object
-         ptr = new int[ size ]; // create space for array copy
-      } // end inner if
-
-      for ( int i = 0; i < size; i++ )
-         ptr[ i ] = right.ptr[ i ]; // copy array into object
-   } // end outer if
-
-   return *this; // enables x = y = z, for example
+  if (size == right.size) {
+    for (int i=lowerBound; i <= upperBound; i++)
+      ptr[i] = right[i];
+    return *this;
+  } else {
+    cerr << "Error: Arrays are of different size" << endl;
+    exit(1);
+  }
 } // end function operator=
 
 // determine if two Arrays are equal and

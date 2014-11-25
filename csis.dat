@@ -7,22 +7,3 @@ b[-3] = -30 b[-2] = -20 b[-1] = -10 b[0] = 0 b[1] = 10 b[2] = 20 b[3] = 30 b[4] 
 3. Array declared with two integers: IntArray c(6, 8);
 
 c[6] = 60 c[7] = 70 c[8] = 80 
-4. Array declared with two identical integers: IntArray d(5, 5);
-
-d[5] = 50 
-5. Array declared with no integers: IntArray z;
-
-z[0] = 0 z[1] = 10 z[2] = 20 z[3] = 30 z[4] = 40 z[5] = 50 z[6] = 60 z[7] = 70 z[8] = 80 z[9] = 90 
-6. Array declared with another object of type IntArray: IntArray c(6, 8);
-                                                        Intarray e(c);
-
-c[6] = 60 c[7] = 70 c[8] = 80 
-e[6] = 60 e[7] = 70 e[8] = 80 
-7. Array assigned to another array with different indices: IntArray f(1, 4);
-                                                           IntArray g(5, 8);
-                                                           f = g;
-
-f[1] = 10 f[2] = 20 f[3] = 30 f[4] = 40 
-g[5] = 50 g[6] = 60 g[7] = 70 g[8] = 80 
-f[1] = -1879048192 f[2] = 0 f[3] = -1879048192 f[4] = 40 
-g[5] = 50 g[6] = 60 g[7] = 70 g[8] = 80 
