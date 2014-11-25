@@ -157,7 +157,7 @@ istream &operator>>( istream &input, IntArray &a ) {
 // overloaded output operator for class Array 
 ostream &operator<<(ostream &output, const IntArray &a) {
     for (int i = a.lowerBound; i <= a.upperBound; i++)
-        output << "a[" << i << "] = " << a[i] << " ";
+        output << a.name << "[" << i << "] = " << a[i] << " ";
     return output;
 } // end function operator<<
 
