@@ -34,7 +34,7 @@ public:
 	const IntArray &operator=(const IntArray &);
 	bool operator==(const IntArray &) const;
 	bool operator!=(const IntArray &right) const;
-	const IntArray operator+(const IntArray &);
+	IntArray operator+(const IntArray &);
 	const IntArray operator+=(const IntArray &);
 	int &operator[](int);              
 	int operator[](int) const;  
@@ -45,6 +45,7 @@ private:
 	int upperBound;
    	int size; // pointer-based array size
    	int *ptr; // pointer to first element of pointer-based array
+   	int *temp; // pointer to temp array to hold third array during addition
 };
 
 #endif

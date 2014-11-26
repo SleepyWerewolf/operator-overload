@@ -16,6 +16,8 @@
 
 using namespace std;
 
+//--------------- CONSTRUCTORS --------------------
+
 IntArray::IntArray() {
   size = 10;
   lowerBound = 0;
@@ -93,104 +95,66 @@ void IntArray::setName(string toName) {
   name = toName;
 }
 
-// overloaded assignment operator;
-// const return avoids: ( a1 = a2 ) = a3
+//--------------- OVERLOADED OPERATORS --------------------
+
 const IntArray &IntArray::operator=(const IntArray &right) {
   if (this != &right) {
-    int difference, i;
     if (size != right.size) 
       cerr << "Error: Arrays not the same size" << endl;
     else {
-      if (lowerBound < right.lowerBound) {
-        difference = right.lowerBound - lowerBound;
-        for (i=0; i < size; i++)
-          ptr[i] = right.ptr[i+difference];
-      } 
-      else if (lowerBound > right.lowerBound) {
-        difference = lowerBound - right.lowerBound;
-        for (i=0; i < size; i++)
-          ptr[i] = right.ptr[i-difference];
-      }
-      else 
-        for (i=0; i<size; i++)
-          ptr[i] = right.ptr[i];
+      for (int i=0; i<size; i++)
+        ptr[i] = right.ptr[i];
     }
   } 
   return *this;
-} // end function operator=
+}
 
-// determine if two Arrays are equal and
-// return true, otherwise return false
 bool IntArray::operator==(const IntArray &right) const {
-  if ( size != right.getSize() )
-    return false; // arrays of different number of elements
-
-  int difference, i;
-  if (lowerBound < right.lowerBound) {
-    difference = right.lowerBound - lowerBound;
-    for (i=0; i< size; i++)
-      if (ptr[i] != right.ptr[i+difference])
-        return false;
-  }
-  else if (lowerBound > right.lowerBound) {
-    difference = lowerBound - right.lowerBound;
-    for (i=0; i<= size; i++)
-      if (ptr[i] != right.ptr[i-difference])
-        return false;
-  }
-  else {
-    for ( i = 0; i < size; i++ )
-      if ( ptr[ i ] != right.ptr[ i ] )
-         return false; // Array contents are not equal
-  }
-  return true; // Arrays are equal
-} // end function operator==
+  if (size != right.getSize())
+    return false;
+  else
+    for (int i = 0; i < size; i++)
+      if (ptr[i] != right.ptr[i])
+         return false;
+  return true;
+}
 
 bool IntArray::operator!=(const IntArray &right) const {
   return !(*this == right);
 }
 
-const IntArray IntArray::operator+(const IntArray &right) {
+IntArray IntArray::operator+(const IntArray &right) {
   if (size == right.getSize()) {
-    int temp [size];
-    int difference, i;
+    IntArray temp = *this;
+    temp.lowerBound = 0;
+    temp.upperBound = size-1;
+    for (int i=0; i<size; i++)
+      temp[i] += right.ptr[i];
+    return temp;
+  } else {
+    cerr << "\nError: Arrays not the same length" << endl;
+    exit(1);
+  }
+}
 
-    if (lowerBound < right.lowerBound) {
-      difference = right.lowerBound - lowerBound;
-      for (i=0; i<size; i++)
-        temp[i-lowerBound] = ptr[i] + right.ptr[i+difference];
-    }
-    else if (lowerBound > right.lowerBound) {
-      difference = lowerBound - right.lowerBound;
-      for (i=0; i<size; i++)
-        temp[i-lowerBound] = ptr[i] + right.ptr[i-difference];
-    }
-    else
-      for (i=0; i<size; i++)
-        temp[i-lowerBound] = ptr[i] + right.ptr[i];
-
-    return *temp;
+/*
+const IntArray &IntArray::operator+(const IntArray &right, IntArray &temp) {
+  if (size == right.getSize()) {
+    temp = new int[right.getSize()];
+    for (int i=0; i<size; i++)
+      temp[i] = ptr[i] + right.ptr[i];
+    return temp;
   } else {
     cerr << "\nError: Arrays not same length" << endl;
     exit(1);
   }
 }
+*/
 
 const IntArray IntArray::operator+=(const IntArray &right) {
   if (size == right.getSize()) {
-    int difference, i;
-    if (lowerBound < right.lowerBound) {
-      difference = right.lowerBound - lowerBound;
-      for (i=0; i<size; i++)
-        ptr[i] = ptr[i] + right.ptr[i+difference];
-    }
-    else if (lowerBound > right.lowerBound) {
-      difference = lowerBound - right.lowerBound;
-      for (i=0; i<size; i++)
-        ptr[i] = ptr[i] + right.ptr[i-difference];
-    }
-    else for (i=0; i<size; i++)
-      ptr[i] = ptr[i] + right.ptr[i];
+    for (int i=0; i<size; i++)
+      ptr[i] += right.ptr[i];
     return *this;
   } else {
     cerr << "\nError: Arrays not same length" << endl;
@@ -201,7 +165,6 @@ const IntArray IntArray::operator+=(const IntArray &right) {
 int &IntArray::operator[](int index) {
   if (index < lowerBound || index > upperBound) {
     cerr << "\nError: Index out of bounds" << endl;
-    exit(1);
   } 
   if (lowerBound < 0 || upperBound < 0)
     return ptr[index + lowerBound];
@@ -209,13 +172,12 @@ int &IntArray::operator[](int index) {
 }
 
 int IntArray::operator[](int index) const {
-   if ( index < lowerBound || index > upperBound ) {
-      cerr << "\nError: Subscript " << index << " out of range" << endl;
-      exit(1);
-   }
-   if (lowerBound < 0 || upperBound < 0)
+  if (index < lowerBound || index > upperBound) {
+    cerr << "\nError: Subscript " << index << " out of range" << endl;
+  }
+  if (lowerBound < 0 || upperBound < 0)
     return ptr[index + lowerBound];
-   else return ptr[index-lowerBound];
+  else return ptr[index-lowerBound];
 }
 
 // overloaded output operator for class Array 
@@ -223,4 +185,4 @@ ostream &operator<<(ostream &output, const IntArray &a) {
     for (int i = a.lowerBound; i <= a.upperBound; i++)
         output << a.name << "[" << i << "] = " << a[i] << " ";
     return output;
-} // end function operator<<
+}

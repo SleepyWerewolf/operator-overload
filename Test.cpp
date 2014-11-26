@@ -7,8 +7,7 @@
 using namespace std;
 
 int main() {
-    test6();
-    test7();
+    test15();
 }
 
 
@@ -138,11 +137,8 @@ void test8() {
     l.setName("l");
     cout << l << endl;
 
-    cout << "K[6] is " << k[6] << endl;
-    //k[6] = l[1];
-    //k[7] = l[2];
-    //k[8] = l[3];
-    //k[9] = l[4];
+    j = k = l;
+
     cout << j << endl;
     cout << k << endl;
     cout << l << endl;
