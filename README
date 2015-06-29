@@ -1,0 +1,6 @@
+Operator Overloader Lab
+CS 320 - Programming Languages
+Viet Truong
+
+The puprose of this lab is to enhance the features of an array to be able to "add" arrays together, among other features, essentially turning arrays into vectors.
+

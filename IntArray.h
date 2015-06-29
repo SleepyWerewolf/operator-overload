@@ -23,13 +23,13 @@ class IntArray
 public:
 	IntArray();
 	IntArray(int);
-	IntArray(int, int); // default constructor
+	IntArray(int, int); 		// default constructor
 	IntArray(const IntArray &); // copy constructor
-	~IntArray(); // destructor
-	int getSize() const; // return size
-	int low();
-	int high();
-	void setName(string);
+	~IntArray(); 				// destructor
+	int getSize() const; 		// return size
+	int low();					// return lowBound
+	int high();					// return highBound
+	void setName(string);		// sets name of IntArray
 
 	const IntArray &operator=(const IntArray &);
 	bool operator==(const IntArray &) const;
@@ -43,9 +43,8 @@ private:
 	string name;
 	int lowerBound;
 	int upperBound;
-   	int size; // pointer-based array size
-   	int *ptr; // pointer to first element of pointer-based array
-   	int *temp; // pointer to temp array to hold third array during addition
+   	int size;
+   	int *ptr;
 };
 
 #endif

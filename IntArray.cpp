@@ -11,8 +11,8 @@
 
 #include <iostream>
 #include <iomanip>
-#include <cstdlib> // exit function prototype
-#include "IntArray.h" // Array class definition
+#include <cstdlib>
+#include "IntArray.h"
 
 using namespace std;
 
@@ -27,15 +27,16 @@ IntArray::IntArray() {
     ptr[i] = 0;
 }
 
-// default constructor for class Array (default size 10)
+// Default constructor
 IntArray::IntArray(int arraySize) {
-  // validate arraySize
+  // validate arraySize; defaults to size 10 if 
+  // arraySize is negative
   if (arraySize > 0)
     size = arraySize;
   else 
     size = 10;
 
-  ptr = new int[ size ];
+  ptr = new int[size];
   lowerBound = 0;
   upperBound = size-1;
 
@@ -43,18 +44,21 @@ IntArray::IntArray(int arraySize) {
     ptr[i] = 0;
 }
 
-IntArray::IntArray(const IntArray &arrayToCopy){
-  size = arrayToCopy.size;
+// Copy constructor
+IntArray::IntArray(const IntArray &toCopy){
+  size = toCopy.size;
   ptr = new int[size];
-  lowerBound = arrayToCopy.lowerBound;
-  upperBound = arrayToCopy.upperBound;
+  lowerBound = toCopy.lowerBound;
+  upperBound = toCopy.upperBound;
 
   for (int i = 0; i < size; i++)
-    ptr[i] = arrayToCopy.ptr[i];
+    ptr[i] = toCopy.ptr[i];
 }
 
+// Constructor for two parameters, a lower and upper bound
 IntArray::IntArray(int lower, int upper) {
   if (lower > upper) {
+    cerr << "Error: Illegal bounds" << endl;
     lowerBound = 0;
     upperBound = 9;
     ptr = new int[10];
@@ -63,17 +67,21 @@ IntArray::IntArray(int lower, int upper) {
     lowerBound = lower;
     upperBound = upper;
 
+    // calculating size of array
     if (lowerBound < 0)
       size = upperBound + (-lowerBound+1);
     else if (upperBound < 0)
       size = (-lowerBound - -upperBound)+1;
     else
       size = (upperBound - lowerBound) + 1;
+
     ptr = new int[size];
     for (int i=0; i < size; i++)
       ptr[i] = 0;
   }
 }
+
+//--------------- FUNCTIONS --------------------
 
 IntArray::~IntArray() {
    delete [] ptr;
@@ -120,7 +128,13 @@ bool IntArray::operator==(const IntArray &right) const {
 }
 
 bool IntArray::operator!=(const IntArray &right) const {
-  return !(*this == right);
+  if (size != right.getSize())
+    return true;
+  else
+    for (int i = 0; i < size; i++)
+      if (ptr[i] != right.ptr[i])
+         return true;
+  return false;
 }
 
 IntArray IntArray::operator+(const IntArray &right) {
@@ -137,20 +151,6 @@ IntArray IntArray::operator+(const IntArray &right) {
   }
 }
 
-/*
-const IntArray &IntArray::operator+(const IntArray &right, IntArray &temp) {
-  if (size == right.getSize()) {
-    temp = new int[right.getSize()];
-    for (int i=0; i<size; i++)
-      temp[i] = ptr[i] + right.ptr[i];
-    return temp;
-  } else {
-    cerr << "\nError: Arrays not same length" << endl;
-    exit(1);
-  }
-}
-*/
-
 const IntArray IntArray::operator+=(const IntArray &right) {
   if (size == right.getSize()) {
     for (int i=0; i<size; i++)
@@ -164,7 +164,7 @@ const IntArray IntArray::operator+=(const IntArray &right) {
 
 int &IntArray::operator[](int index) {
   if (index < lowerBound || index > upperBound) {
-    cerr << "\nError: Index out of bounds" << endl;
+    cerr << "\nError: Index " << index << " out of range" << endl;
   } 
   if (lowerBound < 0 || upperBound < 0)
     return ptr[index + lowerBound];
@@ -173,14 +173,14 @@ int &IntArray::operator[](int index) {
 
 int IntArray::operator[](int index) const {
   if (index < lowerBound || index > upperBound) {
-    cerr << "\nError: Subscript " << index << " out of range" << endl;
+    cerr << "\nError: Index " << index << " out of range" << endl;
   }
   if (lowerBound < 0 || upperBound < 0)
     return ptr[index + lowerBound];
   else return ptr[index-lowerBound];
 }
 
-// overloaded output operator for class Array 
+// overloaded output operator
 ostream &operator<<(ostream &output, const IntArray &a) {
     for (int i = a.lowerBound; i <= a.upperBound; i++)
         output << a.name << "[" << i << "] = " << a[i] << " ";

@@ -4,7 +4,7 @@
 #ifndef _IADRV_H
 #define _IADRV_H
 
-#include "IntArray.cpp"
+#include "IntArray.h"
 
 int main();
 void test1();
